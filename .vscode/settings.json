@@ -1,0 +1,11 @@
+{
+    "python.pythonPath": "venv/bin/python",
+    
+    //モジュール名入力時に()を自動入力
+    "python.autoComplete.addBrackets": true,
+    
+    //pythonファイル保存時にpep8で自動整形
+    "[python]": {
+	    "editor.formatOnSave": true,
+  },
+}
