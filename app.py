@@ -2,6 +2,7 @@
 from flask import Flask, render_template, redirect, request
 from todo import ToDoList
 
+
 app = Flask(__name__)
 
 todolist = ToDoList()

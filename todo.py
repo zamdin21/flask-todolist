@@ -1,11 +1,18 @@
-class ToDoItem:
-    item_id = 0
+from flask_sqlalchemy import SQLAlchemy
 
-    def __init__(self, title):
-        self.title = title
-        self.done = False
-        self.item_id = ToDoItem.item_id
-        ToDoItem.item_id += 1
+db = SQLAlchemy
+
+
+def init_db(app):
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db/sample.db"
+    db.init_app(app)
+
+
+class ToDoItem(db.Model):
+    __tablename__ = "todoitems"
+    item_id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    done = db.Column(db.Boolean, nullable=False, default=False)
 
 
 class ToDoList:
