@@ -31,7 +31,7 @@ def delete_todoitem(item_id):
 
 
 @app.route('/updatedone', methods=['POST'])
-def update_done(item_id):
+def update_done():
     keys = request.form.keys()
     items = [int(x) for x in keys]
     todolist.update_done(items)
