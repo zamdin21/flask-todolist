@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/home/py/flasktest/venv/bin/python",
+    "python.pythonPath": "venv/bin/python",
     
     //モジュール名入力時に()を自動入力
     "python.autoComplete.addBrackets": true,
