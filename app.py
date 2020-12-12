@@ -1,39 +1,23 @@
-# https://www.atmarkit.co.jp/ait/articles/1807/31/news042.html
-from flask import Flask, render_template, redirect, request
-from todo import ToDoList
+# https://www.atmarkit.co.jp/ait/articles/1808/21/news036_2.html
+from flask_cors import CORS
+from flask_restless import APIManager
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-
-todolist = ToDoList()
-
-
-@app.route("/")
-def show_todoliist():
-    return render_template("showtodo.html", todolist=todolist.get_all())
-
-
-@app.route("/additem", methods=["POST"])
-def add_item():
-    title = request.form["title"]
-    if not title:
-        return redirect("/")
-    todolist.add(title)
-    return redirect("/")
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db/todoitems.db"
+db = SQLAlchemy(app)
+manager = APIManager(app, flask_sqlalchemy_db=db)
+# 異なるドメインからのXHRリクエストを処理できるようにする
+# 下記だと全ドメインからの全ルートのリクエスト許可＝危険
+CORS(app)
 
 
-@app.route("/deleteitem/<int:item_id>")
-def delete_todoitem(item_id):
-    todolist.delete(item_id)
-    return redirect("/")
+class ToDoItem(db.Model):
+    __tablename__ = "todoitems"
+    item_id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    done = db.Column(db.Boolean, nullable=False, default=False)
 
 
-@app.route("/updatedone/<int:item_id>")
-def update_todoitemdone(item_id):
-    todolist.update(item_id)
-    return redirect("/")
-
-
-@app.route("/deletealldoneitems")
-def delete_alldoneitems():
-    todolist.delete_doneitem()
-    return redirect("/")
+manager.create_api(ToDoItem, methods=["GET", "POST", "DELETE", "OPTIONS"])
