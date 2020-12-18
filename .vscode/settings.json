@@ -6,6 +6,7 @@
     
     //pythonファイル保存時にpep8で自動整形
     "[python]": {
-	    "editor.formatOnSave": true,
+      "editor.formatOnSave": true,
+    
   },
 }
