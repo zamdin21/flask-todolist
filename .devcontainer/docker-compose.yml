@@ -1,0 +1,32 @@
+version: '3.7'
+
+services: 
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    image: flaskapp:latest
+    container_name: app
+    ports: 
+      - '5000:5000'  #5000ポートで待ち受けて、5000ポートで内部通信(gunicornが拾う)
+      - '3000:3000'  #リモートデバッグ用に3000ポートを解放
+    networks:
+      - nginx_network
+  nginx: 
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    image: my_nginx:latest
+    container_name: nginx
+    depends_on: 
+      - app
+    ports: 
+      - '80:80'  #80ポートで待ち受けて、80ポートで内部通信(default.confが拾う)
+    networks:
+      - nginx_network
+    volumes: 
+     - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+networks:
+  nginx_network:
+    driver: bridge

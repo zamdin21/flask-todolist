@@ -1,9 +1,9 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.154.2/containers/docker-existing-dockerfile
 {
-	"name": "Existing Dockerfile",
+	"name": "My todolist Application",
 	"context": "..",
-	"dockerFile": "../Dockerfile",
+	"dockerComposeFile": ".",
 	"settings": { 
 		"terminal.integrated.shell.linux": null
 	},
